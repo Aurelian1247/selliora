@@ -3,11 +3,13 @@ import {notFound} from "next/navigation";
 
 export default async function LocaleLayout({
   children,
-  params: {locale}
+  params
 }: {
   children: React.ReactNode;
-  params: {locale: string};
+  params: { locale: string };
 }) {
+
+  const { locale } = params;
 
   let messages;
 
