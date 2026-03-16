@@ -1,15 +1,15 @@
-import {NextIntlClientProvider} from "next-intl";
-import {notFound} from "next/navigation";
+import { NextIntlClientProvider } from "next-intl";
+import { notFound } from "next/navigation";
 
 export default async function LocaleLayout({
   children,
   params
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
 
-  const { locale } = params;
+  const { locale } = await params;
 
   let messages;
 
