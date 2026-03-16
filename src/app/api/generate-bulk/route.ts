@@ -48,8 +48,7 @@ export async function POST(req: Request) {
         continue;
       }
 
-      const limit = await checkGenerationLimit(accessToken);
-
+      const limit = await checkGenerationLimit(accessToken, "csv");
       if (!limit.allowed) {
         return NextResponse.json(
           {
