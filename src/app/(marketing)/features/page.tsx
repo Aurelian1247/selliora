@@ -1,4 +1,4 @@
-import { SiteHeader } from "../../../components/layout/site-header";
+
 import { SiteFooter } from "../../../components/layout/site-footer";
 import { FeaturesSection } from "../../../components/marketing/features-section";
 import { HowItWorksSection } from "../../../components/marketing/how-it-works-section";
@@ -7,7 +7,7 @@ import { LiveDemoSection } from "../../../components/marketing/live-demo-section
 export default function FeaturesPage() {
   return (
     <main className="min-h-screen bg-[#050816] text-white">
-      <SiteHeader />
+    
 
       <section className="px-4 pb-6 pt-20 text-center md:px-6">
         <p className="text-sm uppercase tracking-[0.22em] text-violet-300/80">Features</p>

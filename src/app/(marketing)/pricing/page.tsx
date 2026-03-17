@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Check, X, Sparkles } from "lucide-react";
-import { SiteHeader } from "../../../components/layout/site-header";
+
 import { SiteFooter } from "../../../components/layout/site-footer";
 import { getCurrentSession } from "../../../lib/data/session";
 import { getCurrentUserUsage, type UserUsage } from "../../../lib/data/usage";
@@ -35,7 +35,7 @@ export default function PricingPage() {
 
   return (
     <main className="min-h-screen bg-[#050816] text-white">
-      <SiteHeader />
+     
 
       {/* HERO */}
 
