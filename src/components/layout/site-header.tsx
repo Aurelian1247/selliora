@@ -48,6 +48,9 @@ export function SiteHeader() {
           <Link href="/pricing" className="text-sm text-white/65 transition hover:text-white">
             Pricing
           </Link>
+          <Link href="/blog" className="text-sm text-white/65 transition hover:text-white">
+    Blog
+  </Link>
         </nav>
 
         <div className="flex items-center gap-3">
