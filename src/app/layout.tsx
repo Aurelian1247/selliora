@@ -18,8 +18,7 @@ export const metadata: Metadata = {
   description:
     "AI SEO Product Pack for eCommerce. Generate product descriptions, SEO metadata, tags, and sales-ready copy in seconds.",
  verification: {
-    google: "3n78KLcoo4tvD06mSyannhIcxno8D1SR8otmZKFoEI", 
-   
+    google: "3n78KLcoo4tvDO60mSyanmhlcXno8D1SR8otmZKEoEI",  
   },
 
   };
