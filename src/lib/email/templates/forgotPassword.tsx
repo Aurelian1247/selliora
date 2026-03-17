@@ -8,7 +8,7 @@ export function ForgotPassword({ link }: { link: string }) {
       </p>
 
       <a
-        href={`${link}&redirect_to=http://localhost:3000/reset-password`}
+        href={`${link}&redirect_to=https://selliora.app/reset-password`}
         style={{
           display: "inline-block",
           background: "#06b6d4",

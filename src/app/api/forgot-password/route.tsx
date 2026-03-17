@@ -18,7 +18,7 @@ export async function POST(req: Request) {
   type: "recovery",
   email,
   options: {
-    redirectTo: "http://localhost:3000/reset-password",
+    redirectTo: "https://selliora.app/reset-password",
   },
 } as any);
 
