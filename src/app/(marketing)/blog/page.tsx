@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description:
     "Learn how to generate product descriptions, improve ecommerce SEO, and grow your Shopify or WooCommerce store with AI.",
 };
-
+// force rebuild
 const posts = [
   {
     title: "Best AI product description generator in 2026",
