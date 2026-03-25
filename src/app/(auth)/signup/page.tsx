@@ -11,39 +11,49 @@ export default function SignupPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSignup = async () => {
-    setError("");
-    setMessage("");
-    setLoading(true);
+ const handleSignup = async () => {
+  setError("");
+  setMessage("");
+  setLoading(true);
 
-    try {
-      const res = await fetch("/api/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-          fullName,
-        }),
-      });
+  try {
+    const res = await fetch("/api/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+        fullName,
+      }),
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      if (!res.ok) {
-        setError(data.error || "Something went wrong.");
-        setLoading(false);
-        return;
-      }
-
-      setMessage("Account created successfully. Check your email.");
-    } catch (err) {
-      setError("Unexpected error. Please try again.");
+    if (!res.ok) {
+      setError(data.error || "Something went wrong.");
+      setLoading(false);
+      return;
     }
 
-    setLoading(false);
-  };
+    setMessage("Account created successfully. Check your email.");
+
+    // 🔥 GOOGLE ADS CONVERSION TRACKING
+if (typeof window !== "undefined" && (window as any).gtag) {
+  (window as any).gtag('event', 'conversion', {
+    send_to: 'AW-17937965611/ahHcCKarqI8cEKvEvuLC',
+    value: 1.0,
+    currency: 'RON'
+  });
+}
+
+  } catch (err) {
+    setError("Unexpected error. Please try again.");
+  }
+
+  setLoading(false);
+};
 
   return (
     <main className="min-h-screen bg-[#050816] px-4 py-16 text-white md:px-6">
