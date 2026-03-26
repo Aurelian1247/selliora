@@ -7,6 +7,7 @@ import { HowItWorksSection } from "../../components/marketing/how-it-works-secti
 import { PricingSection } from "../../components/marketing/pricing-section";
 import { FAQSection } from "../../components/marketing/faq-section";
 
+
 export default function MarketingHomePage() {
   return (
     <main className="min-h-screen bg-[#050816] text-white">
