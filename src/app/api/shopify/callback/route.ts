@@ -43,6 +43,13 @@ if (!userId) {
   const data = await tokenRes.json();
   const accessToken = data.access_token;
 
+
+// 👇 ADAUGĂ AICI
+console.log("USER ID:", userId);
+console.log("SHOP:", shop);
+console.log("TOKEN:", accessToken);
+console.log("SHOPIFY RESPONSE:", data);
+
   console.log("ACCESS TOKEN:", accessToken);
 
   // ✅ SALVARE CORECTĂ CU USER REAL
