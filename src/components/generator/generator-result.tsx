@@ -1,4 +1,9 @@
+"use client";
+
 import { CopyButton } from "../shared/copy-button";
+import { supabase } from "../../lib/supabase/client"; // ✅ ADĂUGAT
+import { toast } from "react-hot-toast";
+import { useEffect, useState } from "react"; // ✅ ADĂUGAT
 
 type GeneratorOutput = {
   seoTitle: string;
@@ -9,6 +14,8 @@ type GeneratorOutput = {
   tags: string[];
   seoKeywords?: string[];
   instagramCaption?: string;
+  html?: string; // 🔥 IMPORTANT pentru Shopify
+  image?: string; // 🔥 ADAUGĂ LINIA ASTA
 };
 
 type GeneratorResultProps = {
@@ -16,6 +23,79 @@ type GeneratorResultProps = {
 };
 
 export function GeneratorResult({ output }: GeneratorResultProps) {
+
+  // ✅ STATE-URI NOI (NU AFECTEAZĂ CE AI)
+  const [isExporting, setIsExporting] = useState(false);
+  const [hasShopify, setHasShopify] = useState(true);
+
+  // ✅ VERIFICĂ dacă userul are Shopify conectat
+  useEffect(() => {
+    const checkShopify = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) return;
+
+      const { data } = await supabase
+        .from("shopify_connections")
+        .select("id")
+        .eq("user_id", user.id)
+        .limit(1);
+
+      setHasShopify(!!data?.length);
+    };
+
+    checkShopify();
+  }, []);
+
+  // ✅ FUNCȚIE EXPORT (EXTINSĂ CU LOADING + SHOP DIN BACKEND)
+  const handleExportToShopify = async () => {
+    try {
+      setIsExporting(true);
+
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user || !output) {
+        toast.error("User or output missing");
+        return;
+      }
+
+      const res = await fetch("/api/shopify/create-product", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: output.seoTitle,
+          description: output.html || output.longDescription,
+          userId: user.id,
+          image: output.image || null, // 🔥 ADĂUGAT
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(data.error || "Failed to export");
+        return;
+      }
+
+      toast.success("Product pushed to Shopify 🚀");
+
+      // 🔥 DESCHIDE SHOPIFY DINAMIC (NU HARDCODED)
+      window.open(`https://${data.shop}/admin/products/${data.productId}`, "_blank");
+
+    } catch (err) {
+      console.error(err);
+      toast.error("Error exporting product");
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   return (
     <div className="rounded-[30px] border border-white/10 bg-white/5 p-6">
       <h3 className="text-lg font-semibold text-white">Output preview</h3>
@@ -26,6 +106,7 @@ export function GeneratorResult({ output }: GeneratorResultProps) {
         </div>
       ) : (
         <div className="mt-5 space-y-4">
+
           <div className="rounded-2xl border border-cyan-400/20 bg-cyan-400/5 p-4">
             <div className="flex items-start justify-between gap-3">
               <p className="text-[11px] uppercase tracking-[0.22em] text-cyan-200/70">
@@ -137,6 +218,20 @@ export function GeneratorResult({ output }: GeneratorResultProps) {
               </p>
             </div>
           ) : null}
+
+          {/* 🔥 BUTON PREMIUM */}
+          <button
+            onClick={handleExportToShopify}
+            disabled={isExporting || !hasShopify}
+            className="mt-4 w-full rounded-2xl bg-gradient-to-r from-blue-500 to-purple-600 px-4 py-3 text-sm font-medium text-white hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {!hasShopify
+              ? "Connect Shopify first"
+              : isExporting
+              ? "Pushing to Shopify..."
+              : "Export to Shopify"}
+          </button>
+
         </div>
       )}
     </div>

@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { supabase } from "../../lib/supabase/client";
+import { toast } from "react-hot-toast";
 
 export function BulkImageGenerator() {
   const [files, setFiles] = useState<File[]>([]);
@@ -87,7 +88,11 @@ export function BulkImageGenerator() {
 
         if (!res.ok) return null;
 
-        return data;
+        // 🔥 IMPORTANT: atașăm imaginea la rezultat
+        return {
+          ...data,
+          image: base64,
+        };
       });
 
       const outputs = (await Promise.all(promises)).filter(Boolean);
@@ -99,6 +104,57 @@ export function BulkImageGenerator() {
       setIsGenerating(false);
     }
   };
+
+  // 🔥🔥🔥 NOU — EXPORT BULK SHOPIFY
+  const handleExportAllToShopify = async () => {
+    if (results.length === 0) return;
+
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        toast.error("User not authenticated");
+        return;
+      }
+
+       let shopDomain = ""; // 🔥 salvăm shop-ul
+
+    for (const item of results) {
+      const res = await fetch("/api/shopify/create-product", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: item.seoTitle,
+          description: item.longDescription,
+          image: item.image,
+          userId: user.id,
+        }),
+      });
+
+      const data = await res.json();
+
+      // 🔥 luăm shop doar o dată
+      if (!shopDomain && data.shop) {
+        shopDomain = data.shop;
+      }
+    }
+
+    toast.success("All products exported to Shopify 🚀");
+
+    // 🔥 DESCHIDE SHOPIFY PRODUCTS PAGE
+    if (shopDomain) {
+      window.open(`https://${shopDomain}/admin/products`, "_blank");
+    }
+
+  } catch (err) {
+    console.error(err);
+    toast.error("Bulk export failed");
+  }
+};
 
   const clean = (text: string) =>
     (text || "")
@@ -228,12 +284,12 @@ export function BulkImageGenerator() {
         <div>
           <label className="text-xs text-white/40 mb-1 block">Language</label>
           <input
-type="text"
-value={language}
-onChange={(e) => setLanguage(e.target.value)}
-placeholder="Enter language (e.g. English, Romanian, German, Spanish)"
-className="w-full rounded-xl bg-black/20 border border-white/10 px-3 py-2 text-sm text-white placeholder:text-white/40"
-/>
+            type="text"
+            value={language}
+            onChange={(e) => setLanguage(e.target.value)}
+            placeholder="Enter language (e.g. English, Romanian, German, Spanish)"
+            className="w-full rounded-xl bg-black/20 border border-white/10 px-3 py-2 text-sm text-white placeholder:text-white/40"
+          />
         </div>
       </div>
 
@@ -289,8 +345,6 @@ className="w-full rounded-xl bg-black/20 border border-white/10 px-3 py-2 text-s
         <div className="text-red-300 text-sm">{error}</div>
       )}
 
-      {/* restul codului rămâne IDENTIC */}
-
       {results.length > 0 && (
         <div className="space-y-6">
           <div className="flex flex-wrap gap-3 items-center justify-between">
@@ -299,6 +353,13 @@ className="w-full rounded-xl bg-black/20 border border-white/10 px-3 py-2 text-s
             </div>
 
             <div className="flex flex-wrap gap-2">
+              <button
+                onClick={handleExportAllToShopify}
+                className="rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 px-4 py-2 text-white text-sm"
+              >
+                🚀 Export ALL to Shopify
+              </button>
+
               <button
                 onClick={exportShopifyCSV}
                 className="rounded-xl bg-white px-4 py-2 text-black text-sm"

@@ -4,6 +4,7 @@ import "./globals.css";
 import { SiteHeader } from "../components/layout/site-header";
 import { Analytics } from "@vercel/analytics/next"
 import Script from "next/script"; // 👈 ADĂUGAT
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +38,7 @@ export default function RootLayout({
 >
   <SiteHeader />
   {children}
+  <Toaster position="top-right" />   {/* 🔥 AICI EXACT */}
   <Analytics />
 
   {/* 🔥 GOOGLE ADS TAG */}

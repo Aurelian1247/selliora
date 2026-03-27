@@ -13,6 +13,8 @@ type GeneratorOutput = {
   tags: string[];
   seoKeywords?: string[];
   instagramCaption?: string;
+  html?: string; // 🔥 IMPORTANT pentru Shopify
+  image?: string; // 🔥 ADAUGĂ LINIA ASTA
 };
 
 type InitialValues = {
@@ -131,7 +133,13 @@ export function ManualGeneratorForm({
         return;
       }
 
-      onGenerate(data);
+      // 🔥 PĂSTRĂM SHOPIFY + TOT RESTUL
+      onGenerate({
+        ...data,
+        html: data.longDescription,
+        image: imageBase64, // 🔥 ADĂUGAT
+      });
+
       onSuccessfulGeneration?.();
     } catch {
       setError("Unexpected error while generating content.");
@@ -209,8 +217,6 @@ export function ManualGeneratorForm({
             }
           />
         </div>
-
-        {/* TONE + LANGUAGE */}
 
         <div className="grid gap-5 md:grid-cols-2">
 

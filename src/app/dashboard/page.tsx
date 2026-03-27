@@ -18,6 +18,23 @@ type HistoryItem = {
 };
 
 export default function DashboardOverview() {
+
+  // 🔥 ADAUGAT — NU AFECTEAZĂ NIMIC EXISTENT
+  async function connectShopify() {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      alert("Nu ești logat");
+      return;
+    }
+
+    const shop = "selliora-test.myshopify.com";
+
+    window.location.href = `/api/shopify?shop=${shop}&user_id=${user.id}`;
+  }
+
   const [stats, setStats] = useState<Stats>({
     total: 0,
     csv: 0,
@@ -69,6 +86,14 @@ export default function DashboardOverview() {
         <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white">
           Selliora AI dashboard
         </h2>
+
+        {/* 🔥 ADAUGAT — BUTON CONNECT SHOPIFY */}
+        <button
+          onClick={connectShopify}
+          className="mt-4 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 text-sm font-medium text-white hover:opacity-90"
+        >
+          Connect Shopify
+        </button>
 
         <p className="mt-4 max-w-2xl text-sm leading-7 text-white/65">
           Track your product generation activity, imports and AI usage.

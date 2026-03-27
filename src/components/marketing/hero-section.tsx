@@ -35,12 +35,21 @@ export function HeroSection() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.14),transparent_30%),radial-gradient(circle_at_80%_20%,rgba(139,92,246,0.16),transparent_25%),radial-gradient(circle_at_50%_80%,rgba(255,255,255,0.06),transparent_20%)]" />
       <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent,rgba(5,8,22,0.7),#050816)]" />
 
-      <div className="relative mx-auto grid min-h-[calc(100vh-64px)] max-w-7xl items-center gap-12 px-4 py-16 md:px-6 lg:grid-cols-2 lg:py-24">
-        <div className="max-w-2xl">
-          <Badge className="mb-6 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-1 text-cyan-200 hover:bg-cyan-400/10">
-            Built for Shopify, WooCommerce, Amazon, Etsy & More
-          </Badge>
+      <div className="relative mx-auto grid min-h-[calc(100vh-64px)] max-w-7xl items-center gap-4 px-4 py-16 md:px-6 lg:grid-cols-2 lg:py-24">
+  <div className="max-w-2xl">
 
+    <div className="flex flex-wrap items-center gap-4 mb-6">
+      <Badge className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-1 text-cyan-200 hover:bg-cyan-400/10">
+        Built for Shopify, WooCommerce, Amazon, Etsy & More
+      </Badge>
+
+      <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-gradient-to-r from-blue-500/10 to-purple-500/10 px-5 py-1.5 text-xs font-medium text-white shadow-[0_0_20px_rgba(139,92,246,0.25)]">
+        <span className="h-2 w-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 animate-pulse" />
+        <span className="bg-gradient-to-r from-blue-300 to-purple-300 bg-clip-text text-transparent">
+          Now with Shopify integration 
+        </span>
+      </div>
+    </div>
           <motion.h1
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
