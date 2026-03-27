@@ -6,6 +6,7 @@ import { FAQSection } from "../components/marketing/faq-section";
 import { StatsSection } from "../components/marketing/stats-section";
 import { TestimonialsSection } from "../components/marketing/testimonials-section";
 import { ShopifySection } from "../components/marketing/shopify-section";
+import { Footer } from "../components/marketing/Footer";
 export default function HomePage() {
   return (
     <>
@@ -17,6 +18,7 @@ export default function HomePage() {
       <TestimonialsSection />
       <PricingSection />
       <FAQSection />
+      <Footer />
     </>
   );
 }
