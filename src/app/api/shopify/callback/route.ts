@@ -5,13 +5,23 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
 
   const code = searchParams.get("code");
-  const shop = searchParams.get("shop");
-  const userId = searchParams.get("state"); // 🔥 USER REAL DIN FRONTEND
+const shop = searchParams.get("shop");
 
-  if (!code || !shop || !userId) {
-    return NextResponse.json({ error: "Missing params" }, { status: 400 });
-  }
+const stateParam = searchParams.get("state");
 
+if (!code || !shop || !stateParam) {
+  return NextResponse.json({ error: "Missing params" }, { status: 400 });
+}
+
+const decoded = JSON.parse(
+  Buffer.from(stateParam, "base64").toString()
+);
+
+const userId = decoded.userId;
+
+if (!userId) {
+  return NextResponse.json({ error: "Invalid state" }, { status: 400 });
+}
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY! // 🔥 corect aici
