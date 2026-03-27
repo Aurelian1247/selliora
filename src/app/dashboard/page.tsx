@@ -21,19 +21,19 @@ export default function DashboardOverview() {
 
   // 🔥 ADAUGAT — NU AFECTEAZĂ NIMIC EXISTENT
   async function connectShopify() {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-    if (!user) {
-      alert("Nu ești logat");
-      return;
-    }
-
-    const shop = "selliora-test.myshopify.com";
-
-    window.location.href = `/api/shopify?shop=${shop}&user_id=${user.id}`;
+  if (!user) {
+    alert("You are not logged in.");
+    return;
   }
+
+  const shop = "selliora-test.myshopify.com";
+
+  window.location.href = `/api/shopify?shop=${shop}&userId=${user.id}`;
+}
 
   const [stats, setStats] = useState<Stats>({
     total: 0,

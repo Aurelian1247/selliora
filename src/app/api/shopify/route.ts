@@ -1,18 +1,21 @@
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
+  const url = new URL(req.url);
 
-  const shop = searchParams.get("shop");
-  const userId = searchParams.get("user_id");
+  const shop = url.searchParams.get("shop");
+  const userId = url.searchParams.get("userId");
 
   if (!shop || !userId) {
-    return NextResponse.json({ error: "Missing params" }, { status: 400 });
+    return NextResponse.json({ error: "Missing shop or userId" }, { status: 400 });
   }
 
+  const clientId = process.env.SHOPIFY_API_KEY!;
   const redirectUri = `${process.env.NEXT_PUBLIC_BASE_URL}/api/shopify/callback`;
 
-  const installUrl = `https://${shop}/admin/oauth/authorize?client_id=${process.env.SHOPIFY_API_KEY}&scope=write_products&redirect_uri=${redirectUri}&state=${userId}`;
+  const state = Buffer.from(JSON.stringify({ userId })).toString("base64");
+
+  const installUrl = `https://${shop}/admin/oauth/authorize?client_id=${clientId}&scope=write_products&redirect_uri=${redirectUri}&state=${state}`;
 
   return NextResponse.redirect(installUrl);
 }
