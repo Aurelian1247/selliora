@@ -66,10 +66,27 @@ console.log("USER ID:", userId); // 👈 AICI
 
     const data = await res.json();
 
-    return NextResponse.json({
+// 🔥 DEBUG IMPORTANT
+console.log("SHOPIFY RESPONSE:", data);
+
+// 🔥 HANDLE ERROR CORECT
+if (!res.ok) {
+  console.error("SHOPIFY ERROR:", data);
+
+  return NextResponse.json(
+    {
+      error: "Shopify API error",
+      details: data,
+    },
+    { status: 500 }
+  );
+}
+
+// 🔥 SAFE RETURN (nu mai crapă)
+return NextResponse.json({
   success: true,
-  productId: data.product.id, 
-  shop, // 🔥 asta trebuie să existe  
+  productId: data.product?.id || null,
+  shop,
 });
 
   } catch (err) {
