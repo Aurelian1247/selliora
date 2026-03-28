@@ -54,7 +54,7 @@ export default function GeneratorPage() {
           Generator
         </p>
 
-        <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white">
+        <h2 className="mt-3 text-xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-white">
           Product content generator
         </h2>
 
@@ -89,7 +89,7 @@ export default function GeneratorPage() {
 
       {/* TABS */}
 
-      <div className="flex gap-2 border-b border-white/10 pb-2">
+      <div className="flex flex-wrap gap-2 border-b border-white/10 pb-2">
         <button
           onClick={() => setActiveTab("text")}
           className={`px-4 py-2 text-sm rounded-lg transition ${
@@ -150,7 +150,7 @@ export default function GeneratorPage() {
       {/* TEXT GENERATOR */}
 
       {activeTab === "text" && (
-        <div className="grid gap-6 xl:grid-cols-2">
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6">
           <ManualGeneratorForm
             mode="text"
             onGenerate={setOutput}
@@ -168,7 +168,7 @@ export default function GeneratorPage() {
       {/* IMAGE GENERATOR */}
 
       {activeTab === "image" && (
-        <div className="grid gap-6 xl:grid-cols-2">
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6">
           <ManualGeneratorForm
             mode="image"
             onGenerate={setOutput}
