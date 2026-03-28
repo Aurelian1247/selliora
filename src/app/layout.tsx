@@ -5,6 +5,7 @@ import { SiteHeader } from "../components/layout/site-header";
 import { Analytics } from "@vercel/analytics/next"
 import Script from "next/script"; // 👈 ADĂUGAT
 import { Toaster } from "react-hot-toast";
+import EmailTrigger from "../components/EmailTrigger";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +38,7 @@ export default function RootLayout({
   className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-[#050816] font-sans text-white antialiased`}
 >
   <SiteHeader />
+  <EmailTrigger />
   {children}
   <Toaster position="top-right" />   {/* 🔥 AICI EXACT */}
   <Analytics />
