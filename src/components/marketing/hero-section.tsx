@@ -56,9 +56,9 @@ export function HeroSection() {
             transition={{ duration: 0.5 }}
             className="text-4xl font-semibold leading-tight tracking-tight text-white md:text-6xl"
           >
-            Generate product copy that{" "}
+            Create 100 product listings{" "}
             <span className="bg-gradient-to-r from-cyan-300 via-white to-violet-300 bg-clip-text text-transparent">
-              sells, ranks, and scales
+              in minutes, not hours
             </span>
             .
           </motion.h1>
@@ -69,9 +69,7 @@ export function HeroSection() {
             transition={{ duration: 0.55, delay: 0.08 }}
             className="mt-6 max-w-xl text-base leading-7 text-white/70 md:text-lg"
           >
-            Selliora AI creates SEO-ready product titles, descriptions, meta
-            data, tags, and marketing copy for modern eCommerce brands in
-            seconds.
+            From a single product, image or CSV to 100+ listings — generate titles, descriptions, SEO and tags, then publish directly to Shopify or copy into any store.
           </motion.p>
 
           <motion.div
@@ -82,7 +80,7 @@ export function HeroSection() {
           >
             <Link href="/signup">
   <Button className="rounded-xl bg-white px-6 text-black hover:bg-white/90">
-    Start free 
+    Generate your first product →
   </Button>
 </Link>
 
