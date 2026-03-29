@@ -7,10 +7,12 @@ import { StatsSection } from "../components/marketing/stats-section";
 import { TestimonialsSection } from "../components/marketing/testimonials-section";
 import { ShopifySection } from "../components/marketing/shopify-section";
 import { Footer } from "../components/marketing/Footer";
+import { DemoVideo } from "../components/marketing/demo-video";
 export default function HomePage() {
   return (
     <>
       <HeroSection />
+      <DemoVideo />
       <StatsSection />
       <FeaturesSection />
       <ShopifySection />

@@ -77,18 +77,37 @@ export function SiteHeader() {
             </>
           ) : (
             <>
-              <Link
-                href="/login"
-                className="rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10"
-              >
-                Log in
-              </Link>
-              <Link
-                href="/signup"
-                className="rounded-2xl bg-white px-4 py-2 text-sm font-medium text-black transition hover:bg-white/90"
-              >
-                Start free
-              </Link>
+              <div className="flex items-center gap-2 md:gap-3">
+
+  {/* LOGIN */}
+  <Link
+    href="/login"
+    className="
+      whitespace-nowrap
+      rounded-xl border border-white/10 bg-white/5
+      px-3 py-2 text-xs font-medium text-white/90
+      transition hover:bg-white/10
+      md:px-4 md:py-2 md:text-sm
+    "
+  >
+    Log in
+  </Link>
+
+  {/* START FREE */}
+  <Link
+    href="/signup"
+    className="
+      whitespace-nowrap
+      rounded-xl bg-white text-black font-medium
+      px-3 py-2 text-xs
+      transition hover:bg-white/90
+      md:px-5 md:py-2 md:text-sm
+    "
+  >
+    Start free
+  </Link>
+
+</div>
             </>
           )}
         </div>
