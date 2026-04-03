@@ -19,6 +19,7 @@ type HistoryItem = {
 
 export default function DashboardOverview() {
   const [blogLanguage, setBlogLanguage] = useState("English");
+  const [blogTopic, setBlogTopic] = useState("");
 
   // 🔥 ADAUGAT — NU AFECTEAZĂ NIMIC EXISTENT
   async function connectShopify() {
@@ -58,6 +59,11 @@ async function createTestBlog() {
     alert("Shopify not connected");
     return;
   }
+
+  if (!blogTopic) {
+  alert("Please enter a blog topic");
+  return;
+}
 // 🔥 GENERARE AI BLOG
 const aiRes = await fetch("/api/generate", {
   method: "POST",
@@ -65,8 +71,7 @@ const aiRes = await fetch("/api/generate", {
     "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    apiKey: process.env.NEXT_PUBLIC_API_KEY, // sau cum ai tu
-    productName: "Blog article",
+  productName: blogTopic,
    features: `Write a high-quality SEO blog article in ${blogLanguage}. Make it engaging, well-structured, and conversion-focused.`,
     language: blogLanguage,
   }),
@@ -200,6 +205,14 @@ content: generatedContent,
   <option value="Japanese">🇯🇵 Japanese</option>
   <option value="Korean">🇰🇷 Korean</option>
 </select>
+
+<input
+  type="text"
+  placeholder="Enter blog topic (e.g. Best Shopify apps 2026)"
+  value={blogTopic}
+  onChange={(e) => setBlogTopic(e.target.value)}
+  className="mt-3 w-full bg-black/30 border border-white/20 text-white px-3 py-2 rounded-lg text-sm"
+/>
 
         <p className="mt-4 max-w-2xl text-sm leading-7 text-white/65">
           Track your product generation activity, imports and AI usage.
