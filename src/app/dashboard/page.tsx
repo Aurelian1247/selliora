@@ -30,7 +30,8 @@ export default function DashboardOverview() {
     return;
   }
 
-  const shop = "selliora-test.myshopify.com";
+  const shop = prompt("Enter your Shopify store (ex: mystore.myshopify.com)");
+if (!shop) return;
 
   window.location.href = `/api/shopify?shop=${shop}&userId=${user.id}`;
 }

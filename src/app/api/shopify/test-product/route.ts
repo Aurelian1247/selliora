@@ -1,5 +1,10 @@
-export async function GET() {
-  const shop = "selliora-test.myshopify.com";
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+const shop = searchParams.get("shop");
+
+if (!shop) {
+  return new Response("Missing shop", { status: 400 });
+}
 
   // 🔴 AICI pui token-ul din terminal
   const accessToken = "shpua_914cc7574f8543b551af28cad10b2d28";
