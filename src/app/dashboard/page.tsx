@@ -43,6 +43,7 @@ if (!shop) return;
     manual: 0,
   });
 
+  const [showShopifyHelp, setShowShopifyHelp] = useState(false);
   const [recent, setRecent] = useState<HistoryItem[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -89,12 +90,21 @@ if (!shop) return;
         </h2>
 
         {/* 🔥 ADAUGAT — BUTON CONNECT SHOPIFY */}
-        <button
-          onClick={connectShopify}
-          className="mt-4 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 text-sm font-medium text-white hover:opacity-90"
-        >
-          Connect Shopify
-        </button>
+        <div className="mt-4 flex gap-3 items-center">
+  <button
+    onClick={connectShopify}
+    className="rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 text-sm font-medium text-white hover:opacity-90"
+  >
+    Connect Shopify
+  </button>
+
+  <button
+    onClick={() => setShowShopifyHelp(true)}
+    className="rounded-lg border border-white/20 px-4 py-2 text-sm text-white/80 hover:bg-white/10 transition"
+  >
+    How to connect
+  </button>
+</div>
 
         <p className="mt-4 max-w-2xl text-sm leading-7 text-white/65">
           Track your product generation activity, imports and AI usage.
@@ -187,7 +197,82 @@ if (!shop) return;
 
           </section>
         </>
+
       )}
+
+
+{showShopifyHelp && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+    
+    <div className="bg-[#0b0f1a] rounded-2xl p-6 w-full max-w-lg border border-white/10 shadow-2xl relative">
+
+      {/* CLOSE */}
+      <button
+        onClick={() => setShowShopifyHelp(false)}
+        className="absolute top-3 right-3 text-gray-400 hover:text-white"
+      >
+        ✕
+      </button>
+
+      {/* HEADER */}
+      <div className="flex items-center gap-3 mb-4">
+        <div className="w-10 h-10 rounded-lg bg-green-500 flex items-center justify-center font-bold text-black">
+          S
+        </div>
+        <h2 className="text-xl font-semibold text-white">
+          Connect your Shopify store
+        </h2>
+      </div>
+
+      {/* STEPS */}
+      <div className="space-y-4 text-gray-300 text-sm leading-relaxed">
+
+        <div>
+  <span className="text-white font-medium">1.</span> Enter your Shopify store domain  
+  <div className="text-gray-500 text-xs mt-1">
+    You can find it in Shopify Admin → top left, under your store name  
+    <br />
+    Example: <span className="text-white">yourstore.myshopify.com</span>
+  </div>
+</div>
+
+        <div>
+          <span className="text-white font-medium">2.</span> You will be redirected to Shopify
+        </div>
+
+        <div>
+          <span className="text-white font-medium">3.</span> Click <span className="text-white">"Install app"</span>
+        </div>
+
+        <div>
+          <span className="text-white font-medium">4.</span> Done! Your store is now connected 🚀
+        </div>
+
+        <div className="text-yellow-400 text-xs mt-2">
+          ⚠️ Make sure you are logged into your Shopify admin
+        </div>
+
+      </div>
+
+      {/* OPTIONAL GIF PLACE */}
+      {/* 
+      <div className="mt-5 rounded-lg overflow-hidden border border-white/10">
+        <img src="/shopify-demo.gif" alt="Shopify demo" />
+      </div>
+      */}
+
+      {/* BUTTON */}
+      <button
+        onClick={() => setShowShopifyHelp(false)}
+        className="mt-6 w-full py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition"
+      >
+        Got it
+      </button>
+
+    </div>
+  </div>
+)}
+
     </div>
   );
 }
