@@ -18,6 +18,7 @@ type HistoryItem = {
 };
 
 export default function DashboardOverview() {
+  const [blogLanguage, setBlogLanguage] = useState("English");
 
   // 🔥 ADAUGAT — NU AFECTEAZĂ NIMIC EXISTENT
   async function connectShopify() {
@@ -35,6 +36,65 @@ if (!shop) return;
 
   window.location.href = `/api/shopify?shop=${shop}&userId=${user.id}`;
 }
+
+// 🔥 BLOG TEST FUNCTION
+async function createTestBlog() {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    alert("Not logged in");
+    return;
+  }
+
+  const { data: connection } = await supabase
+    .from("shopify_connections")
+    .select("*")
+    .eq("user_id", user.id)
+    .single();
+
+  if (!connection) {
+    alert("Shopify not connected");
+    return;
+  }
+// 🔥 GENERARE AI BLOG
+const aiRes = await fetch("/api/generate", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    apiKey: process.env.NEXT_PUBLIC_API_KEY, // sau cum ai tu
+    productName: "Blog article",
+   features: `Write a high-quality SEO blog article in ${blogLanguage}. Make it engaging, well-structured, and conversion-focused.`,
+    language: blogLanguage,
+  }),
+});
+
+const aiData = await aiRes.json();
+
+const generatedTitle = aiData.seoTitle || "AI Blog";
+const generatedContent = `<p>${aiData.longDescription}</p>`;
+  const res = await fetch("/api/shopify/create-blog", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      shop: connection.shop,
+      accessToken: connection.access_token,
+      title: generatedTitle,
+content: generatedContent,
+    }),
+  });
+
+  const data = await res.json();
+
+  console.log(data);
+  alert("Blog created 🚀 Check your Shopify");
+}
+
 
   const [stats, setStats] = useState<Stats>({
     total: 0,
@@ -99,12 +159,47 @@ if (!shop) return;
   </button>
 
   <button
+  onClick={createTestBlog}
+  className="mt-3 rounded-lg bg-green-600 px-4 py-2 text-sm text-white hover:opacity-90"
+>
+  Create Blog Post in Shopify
+</button>
+
+  <button
     onClick={() => setShowShopifyHelp(true)}
     className="rounded-lg border border-white/20 px-4 py-2 text-sm text-white/80 hover:bg-white/10 transition"
   >
     How to connect
   </button>
 </div>
+
+<select
+  value={blogLanguage}
+  onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+    setBlogLanguage(e.target.value)
+  }
+  className="mt-3 bg-black/30 border border-white/20 text-white px-3 py-2 rounded-lg text-sm"
+>
+  <option value="English">🇬🇧 English</option>
+  <option value="Romanian">🇷🇴 Romanian</option>
+  <option value="French">🇫🇷 French</option>
+  <option value="German">🇩🇪 German</option>
+  <option value="Spanish">🇪🇸 Spanish</option>
+  <option value="Italian">🇮🇹 Italian</option>
+  <option value="Portuguese">🇵🇹 Portuguese</option>
+  <option value="Dutch">🇳🇱 Dutch</option>
+  <option value="Polish">🇵🇱 Polish</option>
+  <option value="Czech">🇨🇿 Czech</option>
+  <option value="Hungarian">🇭🇺 Hungarian</option>
+  <option value="Turkish">🇹🇷 Turkish</option>
+  <option value="Russian">🇷🇺 Russian</option>
+  <option value="Ukrainian">🇺🇦 Ukrainian</option>
+  <option value="Arabic">🇸🇦 Arabic</option>
+  <option value="Hindi">🇮🇳 Hindi</option>
+  <option value="Chinese">🇨🇳 Chinese</option>
+  <option value="Japanese">🇯🇵 Japanese</option>
+  <option value="Korean">🇰🇷 Korean</option>
+</select>
 
         <p className="mt-4 max-w-2xl text-sm leading-7 text-white/65">
           Track your product generation activity, imports and AI usage.

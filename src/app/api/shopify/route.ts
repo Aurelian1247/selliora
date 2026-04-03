@@ -15,7 +15,7 @@ export async function GET(req: Request) {
 
   const state = Buffer.from(JSON.stringify({ userId })).toString("base64");
 
-  const installUrl = `https://${shop}/admin/oauth/authorize?client_id=${clientId}&scope=write_products&redirect_uri=${redirectUri}&state=${state}`;
+  const installUrl = `https://${shop}/admin/oauth/authorize?client_id=${clientId}&scope=write_products,write_content&redirect_uri=${redirectUri}&state=${state}`;
 
   return NextResponse.redirect(installUrl);
 }
