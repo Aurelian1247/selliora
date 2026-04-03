@@ -94,10 +94,17 @@ content: generatedContent,
     }),
   });
 
-  const data = await res.json();
+  if (!res.ok) {
+  const error = await res.text();
+  console.error("BLOG ERROR:", error);
+  alert("Blog failed ❌");
+  return;
+}
 
-  console.log(data);
-  alert("Blog created 🚀 Check your Shopify");
+const data = await res.json();
+console.log("SUCCESS:", data);
+
+alert("Blog created 🚀");
 }
 
 
