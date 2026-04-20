@@ -52,7 +52,7 @@ console.log("SHOPIFY RESPONSE:", data);
 
   console.log("ACCESS TOKEN:", accessToken);
 
-// 🔥 CREATE WEBHOOKS
+// 🔥 CREATE ONLY NON-COMPLIANCE WEBHOOKS
 const webhookMutation = `
 mutation webhookSubscriptionCreate($topic: WebhookSubscriptionTopic!, $webhookSubscription: WebhookSubscriptionInput!) {
   webhookSubscriptionCreate(topic: $topic, webhookSubscription: $webhookSubscription) {
@@ -71,18 +71,6 @@ const webhooks = [
   {
     topic: "APP_UNINSTALLED",
     callbackUrl: "https://selliora.app/api/webhooks/app-uninstalled",
-  },
-  {
-    topic: "CUSTOMERS_DATA_REQUEST",
-    callbackUrl: "https://selliora.app/api/webhooks/customers-data-request",
-  },
-  {
-    topic: "CUSTOMERS_REDACT",
-    callbackUrl: "https://selliora.app/api/webhooks/customers-redact",
-  },
-  {
-    topic: "SHOP_REDACT",
-    callbackUrl: "https://selliora.app/api/webhooks/shop-redact",
   },
 ];
 
