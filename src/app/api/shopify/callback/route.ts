@@ -53,48 +53,61 @@ console.log("SHOPIFY RESPONSE:", data);
   console.log("ACCESS TOKEN:", accessToken);
 
 // 🔥 CREATE WEBHOOKS
+const webhookMutation = `
+mutation webhookSubscriptionCreate($topic: WebhookSubscriptionTopic!, $webhookSubscription: WebhookSubscriptionInput!) {
+  webhookSubscriptionCreate(topic: $topic, webhookSubscription: $webhookSubscription) {
+    webhookSubscription {
+      id
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+}
+`;
+
 const webhooks = [
   {
-    topic: "app/uninstalled",
-    address: "https://selliora.app/api/webhooks/app-uninstalled",
+    topic: "APP_UNINSTALLED",
+    callbackUrl: "https://selliora.app/api/webhooks/app-uninstalled",
   },
   {
-    topic: "customers/data_request",
-    address: "https://selliora.app/api/webhooks/customers-data-request",
+    topic: "CUSTOMERS_DATA_REQUEST",
+    callbackUrl: "https://selliora.app/api/webhooks/customers-data-request",
   },
   {
-    topic: "customers/redact",
-    address: "https://selliora.app/api/webhooks/customers-redact",
+    topic: "CUSTOMERS_REDACT",
+    callbackUrl: "https://selliora.app/api/webhooks/customers-redact",
   },
   {
-    topic: "shop/redact",
-    address: "https://selliora.app/api/webhooks/shop-redact",
+    topic: "SHOP_REDACT",
+    callbackUrl: "https://selliora.app/api/webhooks/shop-redact",
   },
 ];
 
 for (const wh of webhooks) {
-  try {
-    const res = await fetch(`https://${shop}/admin/api/2024-01/webhooks.json`, {
-      method: "POST",
-      headers: {
-        "X-Shopify-Access-Token": accessToken,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        webhook: {
-          topic: wh.topic,
-          address: wh.address,
-          format: "json",
+  const res = await fetch(`https://${shop}/admin/api/2024-04/graphql.json`, {
+    method: "POST",
+    headers: {
+      "X-Shopify-Access-Token": accessToken,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      query: webhookMutation,
+      variables: {
+        topic: wh.topic,
+        webhookSubscription: {
+          callbackUrl: wh.callbackUrl,
+          format: "JSON",
         },
-      }),
-    });
+      },
+    }),
+  });
 
-    const result = await res.json();
-    console.log("Webhook created:", wh.topic, result);
-  } catch (err) {
-    console.error("Webhook error:", wh.topic, err);
-  }
-}  
+  const json = await res.json();
+  console.log("Webhook result:", json);
+}
 
   // ✅ SALVARE CORECTĂ CU USER REAL
   const { error } = await supabase
