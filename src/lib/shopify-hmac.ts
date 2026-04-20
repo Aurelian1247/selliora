@@ -6,26 +6,19 @@ export async function verifyShopifyWebhook(req: Request) {
   const secret = process.env.SHOPIFY_API_SECRET || "";
 
   if (!secret || !hmacHeader) {
-    return { isValid: false, rawBody };
+    return { isValid: false, rawBody, topic: req.headers.get("x-shopify-topic") || "" };
   }
 
-  const generatedHmac = crypto
+  const digest = crypto
     .createHmac("sha256", secret)
     .update(rawBody, "utf8")
     .digest("base64");
 
-  try {
-    const generatedBuffer = Buffer.from(generatedHmac, "base64");
-    const headerBuffer = Buffer.from(hmacHeader, "base64");
+  const isValid = digest === hmacHeader;
 
-    if (generatedBuffer.length !== headerBuffer.length) {
-      return { isValid: false, rawBody };
-    }
-
-    const isValid = crypto.timingSafeEqual(generatedBuffer, headerBuffer);
-
-    return { isValid, rawBody };
-  } catch {
-    return { isValid: false, rawBody };
-  }
+  return {
+    isValid,
+    rawBody,
+    topic: req.headers.get("x-shopify-topic") || "",
+  };
 }
