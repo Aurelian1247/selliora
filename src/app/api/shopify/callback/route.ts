@@ -52,6 +52,50 @@ console.log("SHOPIFY RESPONSE:", data);
 
   console.log("ACCESS TOKEN:", accessToken);
 
+// 🔥 CREATE WEBHOOKS
+const webhooks = [
+  {
+    topic: "app/uninstalled",
+    address: "https://selliora.app/api/webhooks/app-uninstalled",
+  },
+  {
+    topic: "customers/data_request",
+    address: "https://selliora.app/api/webhooks/customers-data-request",
+  },
+  {
+    topic: "customers/redact",
+    address: "https://selliora.app/api/webhooks/customers-redact",
+  },
+  {
+    topic: "shop/redact",
+    address: "https://selliora.app/api/webhooks/shop-redact",
+  },
+];
+
+for (const wh of webhooks) {
+  try {
+    const res = await fetch(`https://${shop}/admin/api/2024-01/webhooks.json`, {
+      method: "POST",
+      headers: {
+        "X-Shopify-Access-Token": accessToken,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        webhook: {
+          topic: wh.topic,
+          address: wh.address,
+          format: "json",
+        },
+      }),
+    });
+
+    const result = await res.json();
+    console.log("Webhook created:", wh.topic, result);
+  } catch (err) {
+    console.error("Webhook error:", wh.topic, err);
+  }
+}  
+
   // ✅ SALVARE CORECTĂ CU USER REAL
   const { error } = await supabase
     .from("shopify_connections")
