@@ -170,12 +170,14 @@ alert("Blog created 🚀");
     Connect Shopify
   </button>
 
+  {false && (
   <button
-  onClick={createTestBlog}
-  className="mt-3 rounded-lg bg-green-600 px-4 py-2 text-sm text-white hover:opacity-90"
->
-  Create Blog Post in Shopify
-</button>
+    onClick={createTestBlog}
+    className="mt-3 rounded-lg bg-green-600 px-4 py-2 text-sm text-white hover:opacity-90"
+  >
+    Create Blog Post in Shopify
+  </button>
+)}
 
   <button
     onClick={() => setShowShopifyHelp(true)}
@@ -185,6 +187,7 @@ alert("Blog created 🚀");
   </button>
 </div>
 
+{false && (
 <select
   value={blogLanguage}
   onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
@@ -212,7 +215,9 @@ alert("Blog created 🚀");
   <option value="Japanese">🇯🇵 Japanese</option>
   <option value="Korean">🇰🇷 Korean</option>
 </select>
+)}
 
+{false && (
 <input
   type="text"
   placeholder="Enter blog topic (e.g. Best Shopify apps 2026)"
@@ -220,6 +225,7 @@ alert("Blog created 🚀");
   onChange={(e) => setBlogTopic(e.target.value)}
   className="mt-3 w-full bg-black/30 border border-white/20 text-white px-3 py-2 rounded-lg text-sm"
 />
+)}
 
         <p className="mt-4 max-w-2xl text-sm leading-7 text-white/65">
           Track your product generation activity, imports and AI usage.
