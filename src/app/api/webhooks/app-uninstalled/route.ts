@@ -4,7 +4,6 @@ export async function POST(req: Request) {
   const { isValid, rawBody } = await verifyShopifyWebhook(req);
 
   if (!isValid) {
-    console.error("Invalid Shopify webhook");
     return new Response("Unauthorized", { status: 401 });
   }
 
